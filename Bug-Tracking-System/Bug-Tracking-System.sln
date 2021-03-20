@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bug-Tracker-Client", "Bug-T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bug-Tracker-Client.Tests", "Bug-Tracker-Client.Tests\Bug-Tracker-Client.Tests.csproj", "{53C43CF4-C354-4147-8165-9E54E39F44CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bug-Tracker-Service", "Bug-Tracker-Service\Bug-Tracker-Service.csproj", "{F6DAAE7F-DAD5-41D0-B1C7-63E0B58F6AD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bug-Tracker-Service.Tests", "Bug-Tracker-Service.Tests\Bug-Tracker-Service.Tests.csproj", "{74FF9300-5635-470D-A0AA-FA8B9E48AF17}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{53C43CF4-C354-4147-8165-9E54E39F44CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53C43CF4-C354-4147-8165-9E54E39F44CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53C43CF4-C354-4147-8165-9E54E39F44CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6DAAE7F-DAD5-41D0-B1C7-63E0B58F6AD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6DAAE7F-DAD5-41D0-B1C7-63E0B58F6AD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6DAAE7F-DAD5-41D0-B1C7-63E0B58F6AD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6DAAE7F-DAD5-41D0-B1C7-63E0B58F6AD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74FF9300-5635-470D-A0AA-FA8B9E48AF17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74FF9300-5635-470D-A0AA-FA8B9E48AF17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74FF9300-5635-470D-A0AA-FA8B9E48AF17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74FF9300-5635-470D-A0AA-FA8B9E48AF17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
