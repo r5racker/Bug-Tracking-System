@@ -88,13 +88,13 @@ namespace Bug_Tracker_Service.Controllers
                 {
                     _per = new Person()
                     {
-                        PersonId = (int)rdr[0],
-                        Name = (string)rdr[1],
-                        Email = (string)rdr[2],
-                        Contact = (string)rdr[3],
-                        Password = (string)rdr[4],
-                        CreaedBy = (int)rdr[5],
-                        Role = (UserRole)rdr[6]
+                        PersonId = (int)rdr["Id"],
+                        Name = (string)rdr["Name"],
+                        Email = (string)rdr["Email"],
+                        Contact = (string)rdr["ContactNo"],
+                        Password = (string)rdr["Password"],
+                        CreaedBy = (int)rdr["CreatedBy"],
+                        Role = (UserRole)rdr["Role"]
                     };
                 }
                 conn.Close();
@@ -143,6 +143,10 @@ namespace Bug_Tracker_Service.Controllers
                     case (UserRole.Tester):
                         roleTablePara = "Tester";
                         break;
+                    case (UserRole.Admin):
+                        roleTablePara = "Admin";
+                        break;
+
                     default:
                         break;
                 }
@@ -155,7 +159,7 @@ namespace Bug_Tracker_Service.Controllers
                 cmdRolebasedEntry.Parameters.AddWithValue("@personId", _person.PersonId);
                 cmdRolebasedEntry.ExecuteNonQuery();
                 conn.Close();
-                result = responseFactory.Generate(ApiResponseType.BugCreate);
+                result = responseFactory.Generate(ApiResponseType.UserCreate);
 
             }
             catch (Exception fex)
@@ -191,7 +195,7 @@ namespace Bug_Tracker_Service.Controllers
                 cmd.Parameters.AddWithValue("@role", _person.Role);
 
                 conn.Open();
-                cmd.ExecuteReader();
+                cmd.ExecuteNonQuery();
                 conn.Close();
                 result = responseFactory.Generate(ApiResponseType.UserUpdate);
 
@@ -218,8 +222,33 @@ namespace Bug_Tracker_Service.Controllers
                 cmd.CommandText = "DELETE Person WHERE Id = @id";
                 cmd.Parameters.AddWithValue("@id", _personId);
 
+                //deleting entry from role based table
+                SqlCommand cmdRolebasedEntry = new SqlCommand();
+                cmdRolebasedEntry.Connection = conn;
+                string roleTablePara = "";
+                switch (_role)
+                {
+                    case (UserRole.Developer):
+                        roleTablePara = "Developer";
+                        break;
+                    case (UserRole.Tester):
+                        roleTablePara = "Tester";
+                        break;
+                    case (UserRole.Admin):
+                        roleTablePara = "Admin";
+                        break;
+
+                    default:
+                        break;
+                }
+                cmdRolebasedEntry.CommandText = "Delete " + roleTablePara + " WHERE PersonId=@personId";
+
+
                 conn.Open();
-                cmd.ExecuteReader();
+                cmd.ExecuteNonQuery();
+                //deleting from role 
+                cmdRolebasedEntry.Parameters.AddWithValue("@personId", _personId);
+                cmdRolebasedEntry.ExecuteNonQuery();
                 conn.Close();
                 result = responseFactory.Generate(ApiResponseType.UserDelete);
 
