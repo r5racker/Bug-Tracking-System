@@ -17,15 +17,15 @@ namespace Bug_Tracker_Service.Controllers
         {
             //return ConfigurationManager.ConnectionStrings["BugTrackingDatabase"].ConnectionString;
             //return @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename =| DataDirectory |\App_Data\BugTrackingDatabase.mdf; Integrated Security = True";
-            return @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = F:\desktop_files_repo\prog\012_sem6\SOC\project_web_api\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service\App_Data\BugTrackingDatabase.mdf; Integrated Security = True";
+           /* return @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = F:\desktop_files_repo\prog\012_sem6\SOC\project_web_api\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service\App_Data\BugTrackingDatabase.mdf; Integrated Security = True";*/
+            return @"Data Source = D:\GITHUB_REPO\BugTracker-WebAPI\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service\App_Data\BugTrackingDatabase.mdf; Integrated Security = True";
         }
 
         // GET: api/BugAlert
-        public IEnumerable<BugAlert> Get([FromUri]BugAlertFilter filter, int id)
+        public IEnumerable<BugAlert> Get([FromUri]BugAlertFilter filter, [FromUri]int personId)
         {
-            int personId = id;
             //return new string[] { "value1", "value2" };
-            Console.WriteLine("Inside BugAlertController.Get(): id="+id.ToString());
+            Console.WriteLine("Inside BugAlertController.Get(): id="+personId.ToString());
             DataSet bugAlerts = new DataSet();
             List<BugAlert> bugAlertsList = new List<BugAlert>();
             var connectionString = getDBConnectionString();
@@ -132,7 +132,8 @@ namespace Bug_Tracker_Service.Controllers
         }
 
         // GET: api/BugAlert/5
-        public BugAlert GetById(int id)
+        [HttpGet]
+        public BugAlert Get(int id)
         {
             int bugId = id;
             BugAlert bugAlert = null;
