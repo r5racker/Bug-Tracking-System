@@ -12,7 +12,7 @@ namespace Bug_Tracker_Service.Controllers
 {
     public class AuthController : ApiController
     {
-        private string getDBConnectionString()
+        public string getDBConnectionString()
         {
             //return ConfigurationManager.ConnectionStrings["BugTrackingDatabase"].ConnectionString;
             //return @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename =| DataDirectory |\App_Data\BugTrackingDatabase.mdf; Integrated Security = True";

@@ -157,6 +157,10 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\BugAlertController.cs" />
+    <Compile Include="Controllers\BugClaimController.cs" />
+    <Compile Include="Controllers\BugResolveController.cs" />
+    <Compile Include="Controllers\BugRetreatController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -170,6 +174,7 @@
     <Compile Include="Models\BugAlertModels\BugAlertFilter.cs" />
     <Compile Include="Models\BugAlertModels\BugAlertStatus.cs" />
     <Compile Include="Models\BugAlertModels\BugCategory.cs" />
+    <Compile Include="Models\BugAlertModels\StatusChangeModel.cs" />
     <Compile Include="Models\UserModels\Person.cs" />
     <Compile Include="Models\UserModels\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
