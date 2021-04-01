@@ -78,7 +78,6 @@ D:\GITHUB_REPO\BugTracker-WebAPI\Bug-Tracking-System\Bug-Tracking-System\Bug-Tra
 D:\GITHUB_REPO\BugTracker-WebAPI\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service\bin\System.Web.WebPages.Razor.xml
 D:\GITHUB_REPO\BugTracker-WebAPI\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service\bin\Antlr3.Runtime.pdb
 D:\GITHUB_REPO\BugTracker-WebAPI\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\GITHUB_REPO\BugTracker-WebAPI\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service\obj\Debug\Bug-Tracker-Service.csprojAssemblyReference.cache
 D:\GITHUB_REPO\BugTracker-WebAPI\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service\obj\Debug\Bug-Tracker-Service.csproj.CoreCompileInputs.cache
 D:\GITHUB_REPO\BugTracker-WebAPI\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service\obj\Debug\Bug-Tracker-Service.csproj.CopyComplete
 D:\GITHUB_REPO\BugTracker-WebAPI\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service\obj\Debug\Bug-Tracker-Service.dll
@@ -168,3 +167,4 @@ F:\desktop_files_repo\prog\012_sem6\SOC\project_web_api\Bug-Tracking-System\Bug-
 F:\desktop_files_repo\prog\012_sem6\SOC\project_web_api\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service\obj\Debug\Bug-Tracker-Service.csproj.CopyComplete
 F:\desktop_files_repo\prog\012_sem6\SOC\project_web_api\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service\obj\Debug\Bug-Tracker-Service.dll
 F:\desktop_files_repo\prog\012_sem6\SOC\project_web_api\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service\obj\Debug\Bug-Tracker-Service.pdb
+D:\GITHUB_REPO\BugTracker-WebAPI\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service\obj\Debug\Bug-Tracker-Service.csprojAssemblyReference.cache

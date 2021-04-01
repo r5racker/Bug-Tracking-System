@@ -37,7 +37,7 @@
                 <%--Site Scripts--%>
             </Scripts>
         </asp:ScriptManager>
-
+        
         <asp:Panel ID="navPanelAdmin" runat="server" Visible="false">
             <div class="navbar navbar-inverse navbar-fixed-top">
                 <div class="container">
