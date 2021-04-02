@@ -1,5 +1,4 @@
-﻿using Bug_Tracker_Service.Models.BugAlertModels;
-using Bug_Tracker_Service.Tests.Models;
+﻿using Bug_Tracker_Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;

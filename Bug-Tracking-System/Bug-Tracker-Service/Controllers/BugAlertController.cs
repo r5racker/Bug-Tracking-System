@@ -1,4 +1,4 @@
-﻿using Bug_Tracker_Service.Tests.Models;
+﻿using Bug_Tracker_Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -42,26 +42,30 @@ namespace Bug_Tracker_Service.Controllers
             }
             else if (filter == BugAlertFilter.AllByTester)
             {
-                cmdText = "SELECT BA.Id,BA.Title,BC.Title as CategoryName,BA.Description,BA.CreatedBy,BA.Status,BA.ResolutionDescription from BugAlert as BA,BugCategory as BC where BA.CreatedBy=@createdBy and BA.CategoryId=BC.Id";
+                //cmdText = "SELECT BA.Id,BA.Title,BC.Title as CategoryName,BA.CategoryId,BA.Description,BA.CreatedBy,BA.Status,BA.ResolutionDescription from BugAlert as BA,BugCategory as BC where BA.CreatedBy=@createdBy and BA.CategoryId=BC.Id";
+                cmdText = "SELECT * from BugAlert as BA,BugCategory as BC where BA.CreatedBy=@createdBy and BA.CategoryId=BC.Id";
                 sqlCmd.CommandText = cmdText;
                 sqlCmd.Parameters.AddWithValue("@createdBy", personId);
             }
             else if (filter == BugAlertFilter.AllByDeveloper)
             {
-                cmdText = "SELECT BA.Id,BA.Title,BC.Title as CategoryName,BA.Description,BA.CreatedBy,BA.Status,BA.ResolutionDescription from BugAlert as BA,BugAlertAssignmentTable as AT,BugCategory as BC where BA.Id = AT.BugAlertId and AT.DeveloperId=@developerId and BA.CategoryId=BC.Id";
+                //cmdText = "SELECT BA.Id,BA.Title,BC.Title as CategoryName,BA.CategoryId,BA.Description,BA.CreatedBy,BA.Status,BA.ResolutionDescription from BugAlert as BA,BugAlertAssignmentTable as AT,BugCategory as BC where BA.Id = AT.BugAlertId and AT.DeveloperId=@developerId and BA.CategoryId=BC.Id";
+                cmdText = "SELECT * from BugAlert as BA,BugAlertAssignmentTable as AT,BugCategory as BC where BA.Id = AT.BugAlertId and AT.DeveloperId=@developerId and BA.CategoryId=BC.Id";
                 sqlCmd.CommandText = cmdText;
                 sqlCmd.Parameters.AddWithValue("@developerId", personId);
             }
             else if (filter == BugAlertFilter.UnresolvedByDeveloper)
             {
-                cmdText = "SELECT BA.Id,BA.Title,BA.Description,BA.ResolutionDescription,BC.Title as CategoryName,BA.CreatedBy,BA.Status from BugAlert as BA,BugAlertAssignmentTable as AT,BugCategory as BC where BA.Id = AT.BugAlertId and AT.DeveloperId=@developerId and BA.status!=@status and BA.CategoryId=BC.Id";
+                //cmdText = "SELECT BA.Id,BA.Title,BA.Description,BA.ResolutionDescription,BC.Title as CategoryName,BA.CategoryId,BA.CreatedBy,BA.Status from BugAlert as BA,BugAlertAssignmentTable as AT,BugCategory as BC where BA.Id = AT.BugAlertId and AT.DeveloperId=@developerId and BA.status!=@status and BA.CategoryId=BC.Id";
+                cmdText = "SELECT * from BugAlert as BA,BugAlertAssignmentTable as AT,BugCategory as BC where BA.Id = AT.BugAlertId and AT.DeveloperId=@developerId and BA.status!=@status and BA.CategoryId=BC.Id";
                 sqlCmd.CommandText = cmdText;
                 sqlCmd.Parameters.AddWithValue("@developerId", personId);
                 sqlCmd.Parameters.AddWithValue("@status", BugAlertStatus.Resolved);
             }
             else if (filter == BugAlertFilter.ResolvedByDeveloper)
             {
-                cmdText = "SELECT BA.Id,BA.Title,BA.Description,BA.ResolutionDescription,BC.Title as CategoryName,BA.CreatedBy,BA.Status from BugAlert as BA,BugAlertAssignmentTable as AT,BugCategory as BC where BA.Id = AT.BugAlertId and AT.DeveloperId=@developerId and BA.status=@status and BA.CategoryId=BC.Id";
+                //cmdText = "SELECT BA.Id,BA.Title,BA.CategoryId,BA.Description,BA.ResolutionDescription,BC.Title as CategoryName,BA.CreatedBy,BA.Status from BugAlert as BA,BugAlertAssignmentTable as AT,BugCategory as BC where BA.Id = AT.BugAlertId and AT.DeveloperId=@developerId and BA.status=@status and BA.CategoryId=BC.Id";
+                cmdText = "SELECT * from BugAlert as BA,BugAlertAssignmentTable as AT,BugCategory as BC where BA.Id = AT.BugAlertId and AT.DeveloperId=@developerId and BA.status=@status and BA.CategoryId=BC.Id";
                 sqlCmd.CommandText = cmdText;
                 sqlCmd.Parameters.AddWithValue("@developerId", personId);
                 sqlCmd.Parameters.AddWithValue("@status", BugAlertStatus.Resolved);
