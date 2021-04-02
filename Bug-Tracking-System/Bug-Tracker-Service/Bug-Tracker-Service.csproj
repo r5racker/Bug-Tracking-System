@@ -155,14 +155,35 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\BugAlertController.cs" />
+    <Compile Include="Controllers\BugClaimController.cs" />
+    <Compile Include="Controllers\BugResolveController.cs" />
+    <Compile Include="Controllers\BugRetreatController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ApiResponseFactory.cs" />
+    <Compile Include="Models\ApiResponseType.cs" />
+    <Compile Include="Models\AuthModels\AuthModel.cs" />
+    <Compile Include="Models\BugAlertModels\BugAlert.cs" />
+    <Compile Include="Models\BugAlertModels\BugAlertFilter.cs" />
+    <Compile Include="Models\BugAlertModels\BugAlertStatus.cs" />
+    <Compile Include="Models\BugAlertModels\BugCategory.cs" />
+    <Compile Include="Models\BugAlertModels\StatusChangeModel.cs" />
+    <Compile Include="Models\UserModels\Person.cs" />
+    <Compile Include="Models\UserModels\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\BugTrackingDatabase.mdf" />
+    <Content Include="App_Data\BugTrackingDatabase_log.ldf">
+      <DependentUpon>BugTrackingDatabase.mdf</DependentUpon>
+    </Content>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -213,10 +234,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
   </ItemGroup>
