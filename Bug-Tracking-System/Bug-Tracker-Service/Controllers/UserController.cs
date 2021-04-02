@@ -17,11 +17,12 @@ namespace Bug_Tracker_Service.Controllers
         {
             //return ConfigurationManager.ConnectionStrings["BugTrackingDatabase"].ConnectionString;
             //return @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename =| DataDirectory |\App_Data\BugTrackingDatabase.mdf; Integrated Security = True";
-            return @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = F:\desktop_files_repo\prog\012_sem6\SOC\project_web_api\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service\App_Data\BugTrackingDatabase.mdf; Integrated Security = True";
+            /* return @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = F:\desktop_files_repo\prog\012_sem6\SOC\project_web_api\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service\App_Data\BugTrackingDatabase.mdf; Integrated Security = True";*/
+            return @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = D:\GITHUB_REPO\BugTracker-WebAPI\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service\App_Data\BugTrackingDatabase.mdf; Integrated Security = True";
         }
 
         // GET: api/User?role=0
-        public IEnumerable<Person> Get([FromUri]UserRole role)
+        /*public IHttpActionResult Get([FromUri]UserRole role)
         {
             UserRole _role = role;
             DataSet ds = new DataSet();
@@ -63,15 +64,17 @@ namespace Bug_Tracker_Service.Controllers
             catch (Exception fex)
             {
                 Console.WriteLine("Error occured while retreiving all users :=> " + fex.ToString());
+                return NotFound();
             }
-            return userList;
-        }
+            return Ok(userList);
+        }*/
 
         // GET: api/User/5?role=0
-        public Person Get(int id, [FromUri]UserRole role=UserRole.Any)
+        [HttpGet]
+        public IHttpActionResult Get(string id, [FromUri]UserRole role=UserRole.Any)
         {
             UserRole _role = role;
-            int _id = id;
+            int _id = Int32.Parse(id);
             Person _per = null;
             try
             {
@@ -103,13 +106,15 @@ namespace Bug_Tracker_Service.Controllers
             catch (Exception fex)
             {
                 Console.WriteLine("Error occured while retreiving user by id :=> " + fex.ToString());
+                return NotFound();
 
             }
-            return _per;
+            return Ok(_per);
         }
 
         // POST: api/User
-        public string Post([FromBody]Person _person)
+        [HttpPost]
+        public HttpResponseMessage Post([FromBody]Person _person)
         {
             string result = "";
             try
@@ -165,13 +170,14 @@ namespace Bug_Tracker_Service.Controllers
             catch (Exception fex)
             {
                 Console.WriteLine(fex.ToString());
-                result = responseFactory.Generate(ApiResponseType.UserActionError);
+                return Request.CreateResponse(HttpStatusCode.NotFound);
             }
-            return result;
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         // PUT: api/User/5
-        public string Put(int id, [FromBody]Person _person)
+        [HttpPut]
+        public HttpResponseMessage Put(int id, [FromBody]Person _person)
         {
             if (_person.PersonId <= 0)
             {
@@ -197,18 +203,20 @@ namespace Bug_Tracker_Service.Controllers
                 conn.Open();
                 cmd.ExecuteNonQuery();
                 conn.Close();
-                result = responseFactory.Generate(ApiResponseType.UserUpdate);
+                
 
             }
             catch (Exception fex)
             {
                 result = "Error occured while updating user :=> " + fex.ToString();
+                return Request.CreateResponse(HttpStatusCode.NotFound);
             }
-            return result;
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         // DELETE: api/User/5
-        public string Delete(int id, UserRole _role)
+        [HttpDelete]
+        public HttpResponseMessage DeletePerson(int id, [FromUri]UserRole _role=UserRole.Any)
         {
             int _personId = id;
             string result = "";
@@ -257,12 +265,15 @@ namespace Bug_Tracker_Service.Controllers
             {
                 Console.WriteLine(fex.ToString());
                 result = responseFactory.Generate(ApiResponseType.UserActionError);
+                return Request.CreateResponse(HttpStatusCode.NotFound);
             }
-            return result;
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
-        [HttpPost]
-        public Person Login([FromBody] string _email, [FromBody] string _password)
+        /*[HttpPost]
+        public IHttpActionResult Login([FromBody] Person person)
         {
+            string _email = person.Email;
+            string _password = person.Password;
             Person _per = null;
             try
             {
@@ -301,6 +312,7 @@ namespace Bug_Tracker_Service.Controllers
                         CreaedBy = -1,
                         Role = UserRole.Any
                     };
+                    return NotFound();
                 }
                 conn.Close();
 
@@ -308,8 +320,9 @@ namespace Bug_Tracker_Service.Controllers
             catch (Exception fex)
             {
                 Console.WriteLine("Error occured while login :=> " + fex.ToString());
+                return NotFound();
             }
-            return _per;
-        }
+            return Ok(_per);
+        }*/
     }
 }

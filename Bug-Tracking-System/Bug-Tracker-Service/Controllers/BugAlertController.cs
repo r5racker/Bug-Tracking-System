@@ -1,4 +1,4 @@
-﻿using Bug_Tracker_Service.Tests.Models;
+﻿using Bug_Tracker_Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -17,15 +17,17 @@ namespace Bug_Tracker_Service.Controllers
         {
             //return ConfigurationManager.ConnectionStrings["BugTrackingDatabase"].ConnectionString;
             //return @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename =| DataDirectory |\App_Data\BugTrackingDatabase.mdf; Integrated Security = True";
-            return @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = F:\desktop_files_repo\prog\012_sem6\SOC\project_web_api\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service\App_Data\BugTrackingDatabase.mdf; Integrated Security = True";
+           /* return @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = F:\desktop_files_repo\prog\012_sem6\SOC\project_web_api\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service\App_Data\BugTrackingDatabase.mdf; Integrated Security = True";*/
+            return @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = D:\GITHUB_REPO\BugTracker-WebAPI\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service\App_Data\BugTrackingDatabase.mdf; Integrated Security = True";
         }
 
         // GET: api/BugAlert
-        public IEnumerable<BugAlert> Get([FromUri]BugAlertFilter filter, int id)
+        [HttpGet]
+        //[ActionName("getbuglist")]
+        public IHttpActionResult GetBugList([FromUri]BugAlertFilter filter, [FromUri]int personId)
         {
-            int personId = id;
             //return new string[] { "value1", "value2" };
-            Console.WriteLine("Inside BugAlertController.Get(): id="+id.ToString());
+            Console.WriteLine("Inside BugAlertController.Get(): id="+personId.ToString());
             DataSet bugAlerts = new DataSet();
             List<BugAlert> bugAlertsList = new List<BugAlert>();
             var connectionString = getDBConnectionString();
@@ -40,26 +42,30 @@ namespace Bug_Tracker_Service.Controllers
             }
             else if (filter == BugAlertFilter.AllByTester)
             {
-                cmdText = "SELECT BA.Id,BA.Title,BC.Title as CategoryName,BA.Description,BA.CreatedBy,BA.Status,BA.ResolutionDescription from BugAlert as BA,BugCategory as BC where BA.CreatedBy=@createdBy and BA.CategoryId=BC.Id";
+                //cmdText = "SELECT BA.Id,BA.Title,BC.Title as CategoryName,BA.CategoryId,BA.Description,BA.CreatedBy,BA.Status,BA.ResolutionDescription from BugAlert as BA,BugCategory as BC where BA.CreatedBy=@createdBy and BA.CategoryId=BC.Id";
+                cmdText = "SELECT * from BugAlert as BA,BugCategory as BC where BA.CreatedBy=@createdBy and BA.CategoryId=BC.Id";
                 sqlCmd.CommandText = cmdText;
                 sqlCmd.Parameters.AddWithValue("@createdBy", personId);
             }
             else if (filter == BugAlertFilter.AllByDeveloper)
             {
-                cmdText = "SELECT BA.Id,BA.Title,BC.Title as CategoryName,BA.Description,BA.CreatedBy,BA.Status,BA.ResolutionDescription from BugAlert as BA,BugAlertAssignmentTable as AT,BugCategory as BC where BA.Id = AT.BugAlertId and AT.DeveloperId=@developerId and BA.CategoryId=BC.Id";
+                //cmdText = "SELECT BA.Id,BA.Title,BC.Title as CategoryName,BA.CategoryId,BA.Description,BA.CreatedBy,BA.Status,BA.ResolutionDescription from BugAlert as BA,BugAlertAssignmentTable as AT,BugCategory as BC where BA.Id = AT.BugAlertId and AT.DeveloperId=@developerId and BA.CategoryId=BC.Id";
+                cmdText = "SELECT * from BugAlert as BA,BugAlertAssignmentTable as AT,BugCategory as BC where BA.Id = AT.BugAlertId and AT.DeveloperId=@developerId and BA.CategoryId=BC.Id";
                 sqlCmd.CommandText = cmdText;
                 sqlCmd.Parameters.AddWithValue("@developerId", personId);
             }
             else if (filter == BugAlertFilter.UnresolvedByDeveloper)
             {
-                cmdText = "SELECT BA.Id,BA.Title,BA.Description,BA.ResolutionDescription,BC.Title as CategoryName,BA.CreatedBy,BA.Status from BugAlert as BA,BugAlertAssignmentTable as AT,BugCategory as BC where BA.Id = AT.BugAlertId and AT.DeveloperId=@developerId and BA.status!=@status and BA.CategoryId=BC.Id";
+                //cmdText = "SELECT BA.Id,BA.Title,BA.Description,BA.ResolutionDescription,BC.Title as CategoryName,BA.CategoryId,BA.CreatedBy,BA.Status from BugAlert as BA,BugAlertAssignmentTable as AT,BugCategory as BC where BA.Id = AT.BugAlertId and AT.DeveloperId=@developerId and BA.status!=@status and BA.CategoryId=BC.Id";
+                cmdText = "SELECT * from BugAlert as BA,BugAlertAssignmentTable as AT,BugCategory as BC where BA.Id = AT.BugAlertId and AT.DeveloperId=@developerId and BA.status!=@status and BA.CategoryId=BC.Id";
                 sqlCmd.CommandText = cmdText;
                 sqlCmd.Parameters.AddWithValue("@developerId", personId);
                 sqlCmd.Parameters.AddWithValue("@status", BugAlertStatus.Resolved);
             }
             else if (filter == BugAlertFilter.ResolvedByDeveloper)
             {
-                cmdText = "SELECT BA.Id,BA.Title,BA.Description,BA.ResolutionDescription,BC.Title as CategoryName,BA.CreatedBy,BA.Status from BugAlert as BA,BugAlertAssignmentTable as AT,BugCategory as BC where BA.Id = AT.BugAlertId and AT.DeveloperId=@developerId and BA.status=@status and BA.CategoryId=BC.Id";
+                //cmdText = "SELECT BA.Id,BA.Title,BA.CategoryId,BA.Description,BA.ResolutionDescription,BC.Title as CategoryName,BA.CreatedBy,BA.Status from BugAlert as BA,BugAlertAssignmentTable as AT,BugCategory as BC where BA.Id = AT.BugAlertId and AT.DeveloperId=@developerId and BA.status=@status and BA.CategoryId=BC.Id";
+                cmdText = "SELECT * from BugAlert as BA,BugAlertAssignmentTable as AT,BugCategory as BC where BA.Id = AT.BugAlertId and AT.DeveloperId=@developerId and BA.status=@status and BA.CategoryId=BC.Id";
                 sqlCmd.CommandText = cmdText;
                 sqlCmd.Parameters.AddWithValue("@developerId", personId);
                 sqlCmd.Parameters.AddWithValue("@status", BugAlertStatus.Resolved);
@@ -126,13 +132,16 @@ namespace Bug_Tracker_Service.Controllers
             catch (Exception fex)
             {
                 Console.WriteLine("Error occured while retriving Bug Alert Record :=> " + fex.ToString());
+                return NotFound();
             }
             
-            return bugAlertsList;
+            return Ok(bugAlertsList);
         }
 
         // GET: api/BugAlert/5
-        public BugAlert GetById(int id)
+        [HttpGet]
+        //[ActionName("getbug")]
+        public IHttpActionResult GetBug(int id)
         {
             int bugId = id;
             BugAlert bugAlert = null;
@@ -167,13 +176,78 @@ namespace Bug_Tracker_Service.Controllers
             }
             catch (Exception fex)
             {
-                Console.WriteLine("Error occured while creating Bug Alert Record :=> " + fex.ToString());   
+                Console.WriteLine("Error occured while creating Bug Alert Record :=> " + fex.ToString());
+                return NotFound();
             }
-            return bugAlert;
+            return Ok(bugAlert);
+        }
+
+        // PUT: api/BugAlert/5
+        [HttpPut]
+        public HttpResponseMessage Put(int id, [FromBody]BugAlert bugAlert)
+        {
+            string result = "";
+            bugAlert.Status = BugAlertStatus.New;
+            try
+            {
+                var connectionString = getDBConnectionString();
+                SqlConnection conn = new SqlConnection(connectionString);
+                SqlCommand sqlCmd = new SqlCommand();
+                sqlCmd.Connection = conn;
+                sqlCmd.CommandText = "UPDATE BugAlert SET Title=@title, Description=@description, CreatedBy=@createdBy, CategoryId=@categoryId, Status= @status,CreatedOn=@createdOn where Id=@id";
+                sqlCmd.Parameters.AddWithValue("@title", bugAlert.Title);
+                sqlCmd.Parameters.AddWithValue("@description", bugAlert.Description);
+                sqlCmd.Parameters.AddWithValue("@createdBy", bugAlert.CreatedBy);
+                sqlCmd.Parameters.AddWithValue("@categoryId", bugAlert.CategoryId);
+                sqlCmd.Parameters.AddWithValue("@status", bugAlert.Status);
+                sqlCmd.Parameters.AddWithValue("@createdOn", bugAlert.CreatedOn);
+                sqlCmd.Parameters.AddWithValue("@id", bugAlert.BugId);
+                conn.Open();
+                sqlCmd.ExecuteNonQuery();
+                conn.Close();
+                result = "Bug Alert Record Updated Successfully.";
+
+            }
+            catch (Exception fex)
+            {
+                result = "Error occured while updating Bug Alert Record :=> " + fex.ToString();
+                return Request.CreateResponse(HttpStatusCode.NotFound, result);
+            }
+            //return result;
+            return Request.CreateResponse(HttpStatusCode.OK, result);
+        }
+
+        // DELETE: api/BugAlert/5
+        [HttpDelete]
+        public HttpResponseMessage Delete(int id)
+        {
+            int bugAlertId = id;
+            string result = "";
+            try
+            {
+                var connectionString = getDBConnectionString();
+                SqlConnection conn = new SqlConnection(connectionString);
+                SqlCommand sqlCmd = new SqlCommand();
+                sqlCmd.Connection = conn;
+                sqlCmd.CommandText = "DELETE from BugAlert where Id=@id";
+                sqlCmd.Parameters.AddWithValue("@id", bugAlertId);
+                conn.Open();
+                sqlCmd.ExecuteNonQuery();
+                conn.Close();
+                result = "Bug Alert Record Deleted Successfully.";
+            }
+            catch (Exception fex)
+            {
+                result = "Error occured while deleting Bug Alert Record :=> " + fex.ToString();
+                return Request.CreateResponse(HttpStatusCode.NotFound, result);
+            }
+            //return result;
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         // POST: api/BugAlert
-        public string Post([FromBody] BugAlert bugAlert)
+        [HttpPost]
+        public HttpResponseMessage Post([FromBody] BugAlert bugAlert)
         {
             string result = "";
             try
@@ -201,212 +275,9 @@ namespace Bug_Tracker_Service.Controllers
             catch (Exception fex)
             {
                 result = "Error occured while creating Bug Alert Record :=> " + fex.ToString();
+                return Request.CreateResponse(HttpStatusCode.NotFound, result);
             }
-            return result;
-        }
-
-        // PUT: api/BugAlert/5
-        public string Put(int id, [FromBody]BugAlert bugAlert)
-        {
-            string result = "";
-            bugAlert.Status = BugAlertStatus.New;
-            try
-            {
-                var connectionString = getDBConnectionString();
-                SqlConnection conn = new SqlConnection(connectionString);
-                SqlCommand sqlCmd = new SqlCommand();
-                sqlCmd.Connection = conn;
-                sqlCmd.CommandText = "UPDATE BugAlert SET Title=@title, Description=@description, CreatedBy=@createdBy, CategoryId=@categoryId, Status= @status,CreatedOn=@createdOn where Id=@id";
-                sqlCmd.Parameters.AddWithValue("@title", bugAlert.Title);
-                sqlCmd.Parameters.AddWithValue("@description", bugAlert.Description);
-                sqlCmd.Parameters.AddWithValue("@createdBy", bugAlert.CreatedBy);
-                sqlCmd.Parameters.AddWithValue("@categoryId", bugAlert.CategoryId);
-                sqlCmd.Parameters.AddWithValue("@status", bugAlert.Status);
-                sqlCmd.Parameters.AddWithValue("@createdOn", bugAlert.CreatedOn);
-                sqlCmd.Parameters.AddWithValue("@id", bugAlert.BugId);
-                conn.Open();
-                sqlCmd.ExecuteNonQuery();
-                conn.Close();
-                result = "Bug Alert Record Updated Successfully.";
-
-            }
-            catch (Exception fex)
-            {
-                result = "Error occured while updating Bug Alert Record :=> " + fex.ToString();
-            }
-            return result;
-        }
-
-        // DELETE: api/BugAlert/5
-        public string Delete(int id)
-        {
-            int bugAlertId = id;
-            string msg = "";
-            try
-            {
-                var connectionString = getDBConnectionString();
-                SqlConnection conn = new SqlConnection(connectionString);
-                SqlCommand sqlCmd = new SqlCommand();
-                sqlCmd.Connection = conn;
-                sqlCmd.CommandText = "DELETE from BugAlert where Id=@id";
-                sqlCmd.Parameters.AddWithValue("@id", bugAlertId);
-                conn.Open();
-                sqlCmd.ExecuteNonQuery();
-                conn.Close();
-                msg = "Bug Alert Record Deleted Successfully.";
-            }
-            catch (Exception fex)
-            {
-                msg = "Error occured while deleting Bug Alert Record :=> " + fex.ToString();
-            }
-            return msg;
-        }
-
-        [HttpPost]
-        public string Claim(int id,[FromBody] int developerId,[FromBody] int assignedBy)
-        {
-            int bugId = id;
-            string result = "";
-            try
-            {
-                var connectionString = getDBConnectionString();
-                SqlConnection conn = new SqlConnection(connectionString);
-                SqlCommand sqlCmd = new SqlCommand();
-                sqlCmd.Connection = conn;
-                sqlCmd.CommandText = "INSERT INTO BugAlertAssignmentTable(BugAlertId,DeveloperId,AssignedBy) Values (@bugAlertId, @developerId, @assignedBy)";
-                sqlCmd.Parameters.AddWithValue("@bugAlertId", bugId);
-                sqlCmd.Parameters.AddWithValue("@developerId", developerId);
-                sqlCmd.Parameters.AddWithValue("@assignedBy", assignedBy);
-
-                SqlCommand sqlCmd2 = new SqlCommand();
-                sqlCmd2.Connection = conn;
-                sqlCmd2.CommandText = "UPDATE BugAlert SET status=@status,AssignedOn=@assignedOn where Id=@id";
-                sqlCmd2.Parameters.AddWithValue("@status", BugAlertStatus.UnderResolution);
-                sqlCmd2.Parameters.AddWithValue("@assignedOn", DateTime.Now);
-                sqlCmd2.Parameters.AddWithValue("@id", bugId);
-
-
-                conn.Open();
-                sqlCmd.ExecuteNonQuery();
-
-                sqlCmd2.ExecuteNonQuery();
-                conn.Close();
-                result = "Bug Alert Assignment Record added Successfully.";
-
-            }
-            catch (Exception fex)
-            {
-                result = "Error occured while creating Bug Alert Assignment Record :=> " + fex.ToString();
-            }
-            return result;
-        }
-
-        [HttpPost]
-        public string Unclaim(int id,[FromBody] int developerId)
-        {
-            int bugId = id;
-            string msg = "";
-            try
-            {
-                var connectionString = getDBConnectionString();
-                SqlConnection conn = new SqlConnection(connectionString);
-                SqlCommand sqlCmd = new SqlCommand();
-                sqlCmd.Connection = conn;
-                sqlCmd.CommandText = "DELETE from BugAlertAssignmentTable where BugAlertId=@bugAlertId and DeveloperId=@developerId";
-                sqlCmd.Parameters.AddWithValue("@bugAlertId", bugId);
-                sqlCmd.Parameters.AddWithValue("@developerId", developerId);
-
-                SqlCommand sqlCmd2 = new SqlCommand();
-                sqlCmd2.Connection = conn;
-                sqlCmd2.CommandText = "UPDATE BugAlert SET status=@status where Id=@id";
-                sqlCmd2.Parameters.AddWithValue("@status", BugAlertStatus.Abandoned);
-                sqlCmd2.Parameters.AddWithValue("@id", bugId);
-
-                conn.Open();
-                sqlCmd.ExecuteNonQuery();
-                sqlCmd2.ExecuteNonQuery();
-                conn.Close();
-                msg = "Bug Alert Assignment Record Deleted Successfully.";
-            }
-            catch (Exception fex)
-            {
-                msg = "Error occured while deleting Bug Alert Assignment Record :=> " + fex.ToString();
-            }
-            return msg;
-        }
-
-        [HttpGet]
-        public IEnumerable<BugCategory> Categories()
-        {
-            DataSet bugCategories = new DataSet();
-            List<BugCategory> bugCategoriesList = new List<BugCategory>();
-            try
-            {
-                var connectionString = getDBConnectionString();
-                SqlConnection conn = new SqlConnection(connectionString);
-                SqlCommand sqlCmd = new SqlCommand();
-                sqlCmd.Connection = conn;
-                sqlCmd.CommandText = "SELECT * from BugCategory";
-                conn.Open();
-                SqlDataAdapter categorySqlDataAdapter = new SqlDataAdapter(sqlCmd);
-                categorySqlDataAdapter.Fill(bugCategories);
-                bugCategories.Tables[0].TableName = "BugCategory";
-                conn.Close();
-                bugCategoriesList = (from DataRow dr in bugCategories.Tables[0].Rows
-                                 select new BugCategory()
-                                 {
-                                     CategoryId = (int)dr["Id"],
-                                     Title = (string)dr["Title"],
-                                     Description = (string)dr["Description"],
-                                     CreatedBy = (int)dr["CreatedBy"],
-                                     AlertCount = !DBNull.Value.Equals(dr["AlertCount"]) ? (int)dr["AlertCount"] : 0,
-                                     AlertCountUnresolved = !DBNull.Value.Equals(dr["AlertCountUnresolved"]) ? (int)dr["AlertCountUnresolved"] : 0
-                                 }
-                                 ).ToList();
-            }
-            catch (Exception fex)
-            {
-                Console.WriteLine("Error occured while retriving Bug Category Record :=> " + fex.ToString());
-            }
-            return bugCategoriesList;
-        }
-
-        [HttpPost]
-        public string Resolve(int id, [FromBody]string bugAlertResolutionDescription)
-        {
-            int bugAlertId = id;
-            string result = "";
-            try
-            {
-                var connectionString = getDBConnectionString();
-                SqlConnection conn = new SqlConnection(connectionString);
-                SqlCommand sqlCmd = new SqlCommand();
-                sqlCmd.Connection = conn;
-                sqlCmd.CommandText = "UPDATE BugAlert SET ResolutionDescription=@resolutiondescription,Status=@status,ResolvedOn=@resolvedOn where Id=@id";
-                sqlCmd.Parameters.AddWithValue("@resolutiondescription", bugAlertResolutionDescription);
-                sqlCmd.Parameters.AddWithValue("@status", BugAlertStatus.Resolved);
-                sqlCmd.Parameters.AddWithValue("@resolvedOn",DateTime.Now);
-                sqlCmd.Parameters.AddWithValue("@id", bugAlertId);
-
-                /*SqlCommand sqlCmd2 = new SqlCommand();
-                sqlCmd2.Connection = conn;
-                sqlCmd2.CommandText = "DELETE from BugAlertAssignmentTable where BugAlertId=@bugId";
-                sqlCmd2.Parameters.AddWithValue("@status", BugAlertStatus.Abandoned);
-                sqlCmd2.Parameters.AddWithValue("@bugId", bugAlertId);*/
-
-                conn.Open();
-                sqlCmd.ExecuteNonQuery();
-                //sqlCmd2.ExecuteNonQuery();
-                conn.Close();
-                result = "Bug Alert status set to Resolved Successfully.";
-
-            }
-            catch (Exception fex)
-            {
-                result = "Error occured while Setting Bug Alert state as Resolved :=> " + fex.ToString();
-            }
-            return result;
-
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
     }
 }

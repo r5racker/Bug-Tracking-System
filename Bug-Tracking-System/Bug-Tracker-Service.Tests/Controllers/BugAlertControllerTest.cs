@@ -33,9 +33,9 @@ namespace Bug_Tracker_Service.Tests.Controllers
         {
             // Arrange
             BugAlertController controller = new BugAlertController();
-            int Id = 14;
+            int Id = 5;
             // Act
-            BugAlert result = controller.GetById(Id);
+            BugAlert result = controller.Get(Id);
 
             // Assert
             Assert.IsNotNull(result);
