@@ -9,6 +9,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Results;
+
 namespace Bug_Tracker_Service.Tests.Controllers
 {
     [TestClass]
@@ -20,14 +22,20 @@ namespace Bug_Tracker_Service.Tests.Controllers
         {
             // Arrange
             UserController controller = new UserController();
+            string id = "31";
+            controller.Request = new HttpRequestMessage();
+            controller.Configuration = new HttpConfiguration();
+
             // Act
-            IEnumerable<Person> result = controller.Get(UserRole.Any);
+            IHttpActionResult actionResult = controller.Get(id);
+            var contentResult = actionResult as OkNegotiatedContentResult<Person>;
 
             // Assert
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.Count() > 0);
+            Assert.IsNotNull(contentResult);
+            Assert.IsNotNull(contentResult.Content);
+            Assert.AreEqual(id, contentResult.Content.PersonId.ToString());
         }
-
+/*
         [TestMethod]
         public void GetById()
         {
@@ -41,7 +49,7 @@ namespace Bug_Tracker_Service.Tests.Controllers
             Console.WriteLine(result.Name);
             Assert.IsNotNull(result);
             Assert.AreEqual(result.PersonId,userId);
-        }
+        }*/
 
         [TestMethod]
         public void Post()
@@ -58,9 +66,15 @@ namespace Bug_Tracker_Service.Tests.Controllers
                 CreaedBy = 5,
                 Password = "123456"
             };
-            string result = controller.Post(per);
-            Assert.IsNotNull(result);
-            Assert.AreEqual(successMsg, result);
+            controller.Request = new HttpRequestMessage();
+            controller.Configuration = new HttpConfiguration();
+
+            // Act
+            var response = controller.Post(per);
+
+            // Assert
+           
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
         }
 
 
@@ -68,16 +82,23 @@ namespace Bug_Tracker_Service.Tests.Controllers
         public void Put()
         {
             UserController controller = new UserController();
-            int userId = 32;
             string successMsg = responseFactory.Generate(ApiResponseType.UserUpdate);
             string errorMsgPrefix = responseFactory.Generate(ApiResponseType.UserActionError);
-            Person per = controller.Get(userId, UserRole.Any);
-            per.Name = "UpdatedName";
-            string result = controller.Put(userId, per);
-            Assert.IsNotNull(result);
-            Assert.AreEqual(successMsg, result);
-        }
+            Person per;
+            string id = "31";
+            controller.Request = new HttpRequestMessage();
+            controller.Configuration = new HttpConfiguration();
 
+            // Act
+            IHttpActionResult actionResult = controller.Get(id);
+            var contentResult = actionResult as OkNegotiatedContentResult<Person>;
+            per = contentResult.Content;
+            per.Name = "UpdatedName";
+            var response = controller.Put(Int32.Parse(id), per);
+            // Assert
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
+        }
+/*
         [TestMethod]
         public void Login()
         {
@@ -86,7 +107,7 @@ namespace Bug_Tracker_Service.Tests.Controllers
             Person per = controller.Login(email, password);
             Assert.IsNotNull(per);
             Assert.IsTrue(per.Email.StartsWith(email));
-        }
+        }*/
 
 
 
@@ -95,11 +116,15 @@ namespace Bug_Tracker_Service.Tests.Controllers
         public void Delete()
         {
             UserController controller = new UserController();
+            controller.Request = new HttpRequestMessage();
+            controller.Configuration = new HttpConfiguration();
+
             string successMsg = responseFactory.Generate(ApiResponseType.UserDelete);
-            int userId = 38;
-            string result = controller.Delete(userId, UserRole.Admin);
-            Assert.IsNotNull(result);
-            Assert.AreEqual(successMsg, result);
+            int userId = 39;
+            var response = controller.DeletePerson(userId, UserRole.Admin);
+            // Assert
+            Assert.IsNotNull(response);
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
         }
     }
 }
