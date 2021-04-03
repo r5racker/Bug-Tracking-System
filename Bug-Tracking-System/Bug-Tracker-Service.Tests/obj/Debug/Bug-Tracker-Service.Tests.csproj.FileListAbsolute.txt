@@ -80,3 +80,6 @@ F:\desktop_files_repo\prog\012_sem6\SOC\project_web_api\Bug-Tracking-System\Bug-
 F:\desktop_files_repo\prog\012_sem6\SOC\project_web_api\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service.Tests\obj\Debug\Bug-Tracker-Service.Tests.csproj.CopyComplete
 F:\desktop_files_repo\prog\012_sem6\SOC\project_web_api\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service.Tests\obj\Debug\Bug-Tracker-Service.Tests.dll
 F:\desktop_files_repo\prog\012_sem6\SOC\project_web_api\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service.Tests\obj\Debug\Bug-Tracker-Service.Tests.pdb
+F:\desktop_files_repo\prog\012_sem6\SOC\project_web_api\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service.Tests\bin\Debug\WebGrease.dll
+F:\desktop_files_repo\prog\012_sem6\SOC\project_web_api\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service.Tests\bin\Debug\Antlr3.Runtime.dll
+F:\desktop_files_repo\prog\012_sem6\SOC\project_web_api\Bug-Tracking-System\Bug-Tracking-System\Bug-Tracker-Service.Tests\bin\Debug\Antlr3.Runtime.pdb
