@@ -120,54 +120,5 @@ namespace Bug_Tracker_Service.Tests.Controllers
             // Assert
             Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
         }
-
-
-        /*[TestMethod]
-        public void Claim()
-        {
-            BugAlertController controller = new BugAlertController();
-            string successMsg = "Bug Alert Assignment Record added Successfully.";
-            int bugId = 20, devId = 5, assignedBy = 5;
-
-            string result = controller.Claim(bugId, devId, assignedBy);
-            Assert.IsNotNull(result);
-            Assert.AreEqual(successMsg, result);
-        }
-
-        [TestMethod]
-        public void UnClaim()
-        {
-            BugAlertController controller = new BugAlertController();
-            string successMsg = "Bug Alert Assignment Record Deleted Successfully.";
-            int bugId = 20, devId = 5;
-
-            string result = controller.Unclaim(bugId, devId);
-            Assert.IsNotNull(result);
-            Assert.AreEqual(successMsg, result);
-        }
-        [TestMethod]
-        public void Categories()
-        {
-            // Arrange
-            BugAlertController controller = new BugAlertController();
-            // Act
-            IEnumerable<BugCategory> result = controller.Categories();
-
-            // Assert
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.Count() > 0);
-        }
-
-        [TestMethod]
-        public void Resolve()
-        {
-            BugAlertController controller = new BugAlertController();
-            string successMsg = "Bug Alert status set to Resolved Successfully.";
-            int bugId = 20;
-
-            string result = controller.Resolve(bugId, "Testing");
-            Assert.IsNotNull(result);
-            Assert.AreEqual(successMsg, result);
-        }*/
     }
 }
